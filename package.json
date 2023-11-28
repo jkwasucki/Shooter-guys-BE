@@ -17,10 +17,10 @@
   },
   "name": "init",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec dist/server.js",
+    "start": "nodemon --exec ts-node server.ts",
     "dev": "nodemon --exec ts-node server.ts"
   },
   "author": "",
