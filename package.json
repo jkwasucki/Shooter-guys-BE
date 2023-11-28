@@ -20,7 +20,7 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc",
-    "start": "nodemon --exec dist/server.js",
+    "start": "nodemon dist/server.js",
     "dev": "nodemon --exec ts-node server.ts"
   },
   "author": "",
