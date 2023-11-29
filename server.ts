@@ -237,7 +237,7 @@ app.use(cors());
 export const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'shooter-guys-j8fg791xi-jkwasucki.vercel.app',
+    origin: 'https://shooter-guys-fe.vercel.app',
     methods: ['GET', 'POST'],
     credentials: true,
   },
