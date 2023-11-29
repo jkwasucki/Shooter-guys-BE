@@ -291,6 +291,9 @@ io.on('connection',(socket:Socket)=>{
 
 
 
+app.get('/',(req,res)=>{
+    res.send('hello from the server')
+})
 try {
   server.listen(4000, () => {
     console.log('Server running on port 4000');
