@@ -28,6 +28,7 @@ type User = {
     cursors?:{},
     facing?:string,
     playerId:string
+    alive:boolean
 }
 
 type Enemy = {
@@ -131,23 +132,16 @@ class Room {
               texture: 'weapon_pistol',
               id: '',
             },
+            alive:true
           };
     
           //Stop AD timeout (if set)
           clearTimeout(this.autodestructionTimeout)
-
+          
           socket.broadcast.emit('userJoined', 'User has joined');
           socket.broadcast.emit('newPlayer', this.players[socket.id]);
           socket.emit('setState', this.gameState);
         });
-
-        socket.on('playerDead',(id)=>{
-            socket.broadcast.emit('playerHasDied',(id))
-        })
-
-        socket.on('playerAlived',(id)=>{
-            socket.broadcast.emit('playerRespawned',(id))
-        })
         
 
         socket.on('updateEnemies',(enemy)=>{
@@ -167,11 +161,12 @@ class Room {
     
     
         socket.on('playerMovement',(movement)=>{
-           
-            const {x,y,cursors} = movement
+           console.log(movement)
+            const {x,y,cursors,alive} = movement
             this.players[socket.id].x = x
             this.players[socket.id].y = y
             this.players[socket.id].cursors = cursors
+            this.players[socket.id].alive = alive
             
     
             socket.broadcast.emit('playerMoved',(this.players[socket.id]))

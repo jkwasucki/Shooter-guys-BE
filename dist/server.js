@@ -80,18 +80,14 @@ class Room {
                     texture: 'weapon_pistol',
                     id: '',
                 },
+                alive: true
             };
             //Stop AD timeout (if set)
             clearTimeout(this.autodestructionTimeout);
+            console.log(this.players[socket.id]);
             socket.broadcast.emit('userJoined', 'User has joined');
             socket.broadcast.emit('newPlayer', this.players[socket.id]);
             socket.emit('setState', this.gameState);
-        });
-        socket.on('playerDead', (id) => {
-            socket.broadcast.emit('playerHasDied', (id));
-        });
-        socket.on('playerAlived', (id) => {
-            socket.broadcast.emit('playerRespawned', (id));
         });
         socket.on('updateEnemies', (enemy) => {
             this.gameState.enemies.push(enemy);
@@ -107,10 +103,12 @@ class Room {
             });
         });
         socket.on('playerMovement', (movement) => {
-            const { x, y, cursors } = movement;
+            console.log(movement);
+            const { x, y, cursors, alive } = movement;
             this.players[socket.id].x = x;
             this.players[socket.id].y = y;
             this.players[socket.id].cursors = cursors;
+            this.players[socket.id].alive = alive;
             socket.broadcast.emit('playerMoved', (this.players[socket.id]));
         });
         socket.on('updateCursors', (cursors, facing) => {
@@ -158,7 +156,7 @@ app.use((0, cors_1.default)());
 exports.server = (0, node_http_1.createServer)(app);
 const io = new socket_io_1.Server(exports.server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: 'https://shooter-guys-fe.vercel.app',
         methods: ['GET', 'POST'],
         credentials: true,
     },
